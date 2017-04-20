@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSURL *mediaUrl;
 
 @property (nonatomic, nullable) AVAudioPlayer *audioPlayer;
-@property (nonatomic, nullable) NSTimer *audioPlayerPoller;
 
 @end
 
@@ -98,8 +97,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     [ViewControllerUtils setAudioIgnoresHardwareMuteSwitch:YES];
 
-    [self.audioPlayerPoller invalidate];
-
     self.delegate.isAudioPlaying = YES;
     self.delegate.isPaused = NO;
     [self.delegate setAudioIconToPause];
@@ -117,11 +114,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     [self.audioPlayer prepareToPlay];
     [self.audioPlayer play];
-    self.audioPlayerPoller = [NSTimer scheduledTimerWithTimeInterval:.05
-                                                              target:self
-                                                            selector:@selector(audioPlayerUpdated:)
-                                                            userInfo:nil
-                                                             repeats:YES];
 }
 
 - (void)pause
@@ -131,9 +123,6 @@ NS_ASSUME_NONNULL_BEGIN
     self.delegate.isAudioPlaying = NO;
     self.delegate.isPaused = YES;
     [self.audioPlayer pause];
-    [self.audioPlayerPoller invalidate];
-    double current = [self.audioPlayer currentTime] / [self.audioPlayer duration];
-    [self.delegate setAudioProgressFromFloat:(float)current];
     [self.delegate setAudioIconToPlay];
 }
 
@@ -142,8 +131,6 @@ NS_ASSUME_NONNULL_BEGIN
     OWSAssert([NSThread isMainThread]);
 
     [self.audioPlayer pause];
-    [self.audioPlayerPoller invalidate];
-    [self.delegate setAudioProgressFromFloat:0];
     [self.delegate setAudioIconToPlay];
     self.delegate.isAudioPlaying = NO;
     self.delegate.isPaused = NO;
@@ -161,17 +148,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 #pragma mark - Events
-
-- (void)audioPlayerUpdated:(NSTimer *)timer
-{
-    OWSAssert([NSThread isMainThread]);
-
-    OWSAssert(self.audioPlayer);
-    OWSAssert(self.audioPlayerPoller);
-
-    double current = [self.audioPlayer currentTime] / [self.audioPlayer duration];
-    [self.delegate setAudioProgressFromFloat:(float)current];
-}
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
