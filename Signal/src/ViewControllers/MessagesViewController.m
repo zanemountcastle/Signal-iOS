@@ -2212,6 +2212,7 @@ typedef enum : NSUInteger {
 }
 
 #pragma mark UIDocumentPickerDelegate
+
 - (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentAtURL:(NSURL *)url
 {
     DDLogDebug(@"%@ Picked document at url: %@", self.tag, url);
@@ -2361,10 +2362,13 @@ typedef enum : NSUInteger {
     if ([mediaType isEqualToString:(__bridge NSString *)kUTTypeMovie]) {
         // Video picked from library or captured with camera
 
+        BOOL isFromCamera = picker.sourceType == UIImagePickerControllerSourceTypeCamera;
         NSURL *videoURL = info[UIImagePickerControllerMediaURL];
         [self dismissViewControllerAnimated:YES
                                  completion:^{
-                                     [self sendQualityAdjustedAttachmentForVideo:videoURL filename:filename];
+                                     [self sendQualityAdjustedAttachmentForVideo:videoURL
+                                                                        filename:filename
+                                                              skipApprovalDialog:isFromCamera];
                                  }];
     } else if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
         // Static Image captured from camera
@@ -2389,7 +2393,7 @@ typedef enum : NSUInteger {
                                              [self showErrorAlertForAttachment:attachment];
                                              failedToPickAttachment(nil);
                                          } else {
-                                             [self tryToSendAttachmentIfApproved:attachment];
+                                             [self tryToSendAttachmentIfApproved:attachment skipApprovalDialog:YES];
                                          }
                                      } else {
                                          failedToPickAttachment(nil);
@@ -2470,7 +2474,9 @@ typedef enum : NSUInteger {
     return [NSURL fileURLWithPath:basePath];
 }
 
-- (void)sendQualityAdjustedAttachmentForVideo:(NSURL *)movieURL filename:(NSString *)filename
+- (void)sendQualityAdjustedAttachmentForVideo:(NSURL *)movieURL
+                                     filename:(NSString *)filename
+                           skipApprovalDialog:(BOOL)skipApprovalDialog
 {
     AVAsset *video = [AVAsset assetWithURL:movieURL];
     AVAssetExportSession *exportSession =
@@ -2496,7 +2502,7 @@ typedef enum : NSUInteger {
                     attachment ? [attachment errorName] : @"Missing data");
                 [self showErrorAlertForAttachment:attachment];
             } else {
-                [self tryToSendAttachmentIfApproved:attachment];
+                [self tryToSendAttachmentIfApproved:attachment skipApprovalDialog:skipApprovalDialog];
             }
 
             NSError *error;
@@ -2967,6 +2973,12 @@ typedef enum : NSUInteger {
 
 - (void)tryToSendAttachmentIfApproved:(SignalAttachment *_Nullable)attachment
 {
+    [self tryToSendAttachmentIfApproved:attachment skipApprovalDialog:NO];
+}
+
+- (void)tryToSendAttachmentIfApproved:(SignalAttachment *_Nullable)attachment
+                   skipApprovalDialog:(BOOL)skipApprovalDialog
+{
     DDLogError(@"%@ %s", self.tag, __PRETTY_FUNCTION__);
 
     DispatchMainThreadSafe(^{
@@ -2986,6 +2998,8 @@ typedef enum : NSUInteger {
                 __PRETTY_FUNCTION__,
                 attachment ? [attachment errorName] : @"Missing data");
             [self showErrorAlertForAttachment:attachment];
+        } else if (skipApprovalDialog) {
+            [self sendMessageAttachment:attachment];
         } else {
             __weak MessagesViewController *weakSelf = self;
             UIViewController *viewController =
