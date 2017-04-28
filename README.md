@@ -1,8 +1,10 @@
-# Signal for iOS [![Build Status](https://travis-ci.org/WhisperSystems/Signal-iOS.svg?branch=master)](https://travis-ci.org/WhisperSystems/Signal-iOS)
+# Flowmoji
 
-Signal is a messaging app for simple private communication with friends.
+Flowmoji is a messaging app built on [Signal](https://github.com/WhisperSystems/Signal-iOS) for even more secure communication. With enough resources, any attacker can brute-force decrypt an intercepted message or take advantage of as-of-yet unknown vulnerabilities in the Signal protocol. 
 
-[![Available on the AppStore](http://cl.ly/WouG/Download_on_the_App_Store_Badge_US-UK_135x40.svg)](https://itunes.apple.com/app/id874139669)
+The premise of this project is to flood an attacker with bogus, encrypted messages in an attampt to overwhelm their resources. Using this  application, only a small percentage of intercepted encrypted messages will contain valuable information.
+
+The user is unaware of the messages being sent back and forth between two application hosts, since the application automatically filters out messages that match the Flowmoji bogus message format.
 
 ## Translation
 
@@ -14,10 +16,6 @@ Instructions on how to setup your development environment and build Signal-iOS c
 We recommend going through our issues and picking out something with the [help wanted](https://github.com/WhisperSystems/Signal-iOS/labels/help%20wanted) label.
 
 For larger changes and feature ideas, we ask that you propose it on the [unofficial Community Forum](https://whispersystems.discoursehosting.net) for a high-level discussion with the wider community before implementation.
-
-This repository is set up with [BitHub](https://whispersystems.org/blog/bithub/), so you can make money for committing to Signal-iOS. The current BitHub price for an accepted pull request is:
-
-[![Current BitHub Price](https://bithub.herokuapp.com/v1/status/payment/commit/)](https://whispersystems.org/blog/bithub/)
 
 ## Contributing Ideas
 Have something you want to say about Open Whisper Systems projects or want to be part of the conversation? Get involved in the [community forum](https://whispersystems.discoursehosting.net).
