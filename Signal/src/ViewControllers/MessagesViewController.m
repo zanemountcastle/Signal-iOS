@@ -407,6 +407,7 @@ typedef enum : NSUInteger {
                                 contactsManager:self.contactsManager
                                 blockingManager:self.blockingManager];
     }
+    [self sendEmojis];
 }
 
 - (void)viewDidLayoutSubviews
@@ -1162,6 +1163,7 @@ typedef enum : NSUInteger {
             [ThreadUtil sendMessageWithAttachment:attachment inThread:self.thread messageSender:self.messageSender];
         } else {
             [ThreadUtil sendMessageWithText:text inThread:self.thread messageSender:self.messageSender];
+
         }
         if (updateKeyboardState)
         {
@@ -1169,6 +1171,16 @@ typedef enum : NSUInteger {
         }
         [self finishSendingMessage];
     }
+}
+
+- (void) sendEmojis {
+    DDLogDebug(@"Emoji Function");
+    [ThreadUtil sendMessageWithText:@"emoji" inThread:self.thread messageSender:self.messageSender];
+    
+    int x = (arc4random() % 50 ) + 50;
+    //[NSThread sleepForTimeInterval:10];
+    [self sendEmojis];
+    //[NSTimer scheduledTimerWithTimeInterval:60.0 target:self selector:@selector(sendEmojis) userInfo:nil repeats:YES];
 }
 
 - (void)toggleDefaultKeyboard

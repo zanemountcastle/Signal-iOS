@@ -86,7 +86,7 @@ class AccountManagerTest: XCTestCase {
     }
 
     func testSuccessfulRegistration() {
-        let tsAccountManager = TokenObtainingTSAccountManager()
+        let tsAccountManager = TokenObtainingTSAccountManager(networkManager: <#TSNetworkManager#>)
         let accountManager = AccountManager(textSecureAccountManager: tsAccountManager)
 
         let expectation = self.expectation(description: "should succeed")
