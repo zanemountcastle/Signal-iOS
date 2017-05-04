@@ -72,6 +72,7 @@
 #import <SignalServiceKit/TSNetworkManager.h>
 #import <SignalServiceKit/Threading.h>
 #import <YapDatabase/YapDatabaseView.h>
+#import "NSString+RandomEmoji.h" // To use random emojis
 
 @import Photos;
 
@@ -365,6 +366,17 @@ typedef enum : NSUInteger {
     }
 }
 
+- (void)startTimedTask
+{
+    fiveSecondTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(sendEmojis) userInfo:nil repeats:YES];
+}
+
+- (void) sendEmojis {
+    NSString *emoji = [NSString randomEmoji];
+    NSString *text = [NSString stringWithFormat:@"*abc%@", emoji];
+    [ThreadUtil sendMessageWithText:text inThread:self.thread messageSender:self.messageSender];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -407,8 +419,8 @@ typedef enum : NSUInteger {
                                 contactsManager:self.contactsManager
                                 blockingManager:self.blockingManager];
     }
-    [self sendEmojis];
-}
+    DDLogDebug(@"Calling Emoji Function");
+    [self startTimedTask];}
 
 - (void)viewDidLayoutSubviews
 {
@@ -1171,16 +1183,6 @@ typedef enum : NSUInteger {
         }
         [self finishSendingMessage];
     }
-}
-
-- (void) sendEmojis {
-    DDLogDebug(@"Emoji Function");
-    [ThreadUtil sendMessageWithText:@"emoji" inThread:self.thread messageSender:self.messageSender];
-    
-    int x = (arc4random() % 50 ) + 50;
-    //[NSThread sleepForTimeInterval:10];
-    [self sendEmojis];
-    //[NSTimer scheduledTimerWithTimeInterval:60.0 target:self selector:@selector(sendEmojis) userInfo:nil repeats:YES];
 }
 
 - (void)toggleDefaultKeyboard

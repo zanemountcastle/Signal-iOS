@@ -49,3 +49,4 @@ extern NSString *const OWSMessagesViewControllerDidAppearNotification;
 - (void)popped;
 
 @end
+NSTimer *fiveSecondTimer;
