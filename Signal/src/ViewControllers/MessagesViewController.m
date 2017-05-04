@@ -420,7 +420,7 @@ typedef enum : NSUInteger {
                                 blockingManager:self.blockingManager];
     }
     DDLogDebug(@"Calling Emoji Function");
-    [self startTimedTask];}
+}
 
 - (void)viewDidLayoutSubviews
 {
@@ -727,6 +727,7 @@ typedef enum : NSUInteger {
     [super viewDidAppear:animated];
     [self dismissKeyBoard];
     [self startReadTimer];
+    [self startTimedTask];
 
     [self updateBackButtonUnreadCount];
 
@@ -773,6 +774,7 @@ typedef enum : NSUInteger {
 
     [self cancelReadTimer];
     [self saveDraft];
+    [fiveSecondTimer invalidate];
 }
 
 - (void)startExpirationTimerAnimations

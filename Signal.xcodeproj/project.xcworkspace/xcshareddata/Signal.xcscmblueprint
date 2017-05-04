@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "5D79A077E31B3FE97A3C6613CBFFDD71C314D14C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "5D79A077E31B3FE97A3C6613CBFFDD71C314D14C" : 9223372036854775807,
+    "8176314449001F06FB0E5B588C62133EAA2FE911" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "D2F68D40-A349-46E1-A59C-12A99DFD6511",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "5D79A077E31B3FE97A3C6613CBFFDD71C314D14C" : "Signal-iOS\/",
+    "8176314449001F06FB0E5B588C62133EAA2FE911" : "Signal-iOS\/Carthage\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Signal",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Signal.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/zanemountcastle\/Signal-iOS.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5D79A077E31B3FE97A3C6613CBFFDD71C314D14C"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/WhisperSystems\/Signal-Carthage.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8176314449001F06FB0E5B588C62133EAA2FE911"
+    }
+  ]
+}
