@@ -1231,6 +1231,16 @@ typedef enum : NSUInteger {
     forItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([cell conformsToProtocol:@protocol(OWSMessageCollectionViewCell)]) {
+//       
+//        if ([cell.textView.text hasPrefix:@"*abc"]) {
+//            DDLogDebug(@"Bogus Message!");
+//            [((id<OWSMessageCollectionViewCell>)cell) setCellVisible:NO];
+//        } else {
+//            DDLogDebug(@"Real Message!");
+//            [((id<OWSMessageCollectionViewCell>)cell) setCellVisible:YES];
+//        }
+        
+        
         [((id<OWSMessageCollectionViewCell>)cell) setCellVisible:YES];
     }
 }
@@ -1347,6 +1357,9 @@ typedef enum : NSUInteger {
     }
 
     [cell ows_didLoad];
+    
+    DDLogDebug(@"HELLO: %@", cell);
+
     return cell;
 }
 
