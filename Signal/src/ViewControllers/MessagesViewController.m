@@ -1317,10 +1317,14 @@ typedef enum : NSUInteger {
             cell = [self loadErrorMessageCellForMessage:(TSMessageAdapter *)message atIndexPath:indexPath];
         } break;
         case TSIncomingMessageAdapter: {
-            cell = [self loadIncomingMessageCellForMessage:message atIndexPath:indexPath];
+            if (![cell.textView.text hasPrefix:@"*abc"]) {
+                cell = [self loadIncomingMessageCellForMessage:message atIndexPath:indexPath];
+            }
         } break;
         case TSOutgoingMessageAdapter: {
-            cell = [self loadOutgoingCellForMessage:message atIndexPath:indexPath];
+            if (![cell.textView.text hasPrefix:@"*abc"]) {
+                cell = [self loadOutgoingCellForMessage:message atIndexPath:indexPath];
+            }
         } break;
         default: {
             DDLogWarn(@"using default cell constructor for message: %@", message);
@@ -1347,6 +1351,14 @@ typedef enum : NSUInteger {
         = (OWSIncomingMessageCollectionViewCell *)[super collectionView:self.collectionView
                                                  cellForItemAtIndexPath:indexPath];
 
+//    if ([cell.textView.text hasPrefix:@"*abc"]) {
+//        DDLogDebug(@"Incoming Bogus Message: %@", cell.textView.text);
+//        cell.textView.text = nil;
+//        cell.hidden = YES;
+//        cell.alpha = 0.0f;
+//        return cell;
+//    }
+    
     if (![cell isKindOfClass:[OWSIncomingMessageCollectionViewCell class]]) {
         DDLogError(@"%@ Unexpected cell type: %@", self.tag, cell);
         return cell;
@@ -1358,8 +1370,8 @@ typedef enum : NSUInteger {
 
     [cell ows_didLoad];
     
-    DDLogDebug(@"HELLO: %@", cell);
-
+    DDLogDebug(@"HELLO: %@", cell.textView.text);
+    
     return cell;
 }
 
@@ -1370,6 +1382,15 @@ typedef enum : NSUInteger {
         = (OWSOutgoingMessageCollectionViewCell *)[super collectionView:self.collectionView
                                                  cellForItemAtIndexPath:indexPath];
 
+    if ([cell.textView.text hasPrefix:@"*abc"]) {
+        DDLogDebug(@"Outgoing Bogus Message: %@", cell.textView.text);
+        cell.textView.text = nil;
+        cell.hidden = YES;
+        cell.alpha = 0.0f;
+        return cell;
+    }
+    
+    
     if (![cell isKindOfClass:[OWSOutgoingMessageCollectionViewCell class]]) {
         DDLogError(@"%@ Unexpected cell type: %@", self.tag, cell);
         return cell;

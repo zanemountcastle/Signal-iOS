@@ -52,20 +52,20 @@ NS_ASSUME_NONNULL_BEGIN
 {
     //DDLogDebug(@"Cell: %@", self.textView.text);
     
-    if ([self.textView.text hasPrefix:@"*abc"]) {
-        DDLogDebug(@"Bogus Message: %@", self.textView.text);
-        isVisible = !isVisible;
-        
-        DDLogDebug(@"Is Visible? %s", isVisible ? "True" : "False");
-        [self.mediaAdapter setCellVisible:NO];
-    } else {
-        DDLogDebug(@"Real Message %@", self.textView.text);
-        DDLogDebug(@"Is Visible? %s", isVisible ? "True" : "False");
-        [self.mediaAdapter setCellVisible:isVisible];
-    }
+//    if ([self.textView.text hasPrefix:@"*abc"]) {
+//        DDLogDebug(@"Bogus Message: %@", self.textView.text);
+//        isVisible = !isVisible;
+//        
+//        DDLogDebug(@"Is Visible? %s", isVisible ? "True" : "False");
+//        [self.mediaAdapter setCellVisible:NO];
+//    } else {
+//        DDLogDebug(@"Real Message %@", self.textView.text);
+//        DDLogDebug(@"Is Visible? %s", isVisible ? "True" : "False");
+//        [self.mediaAdapter setCellVisible:isVisible];
+//    }
 
     
-//    [self.mediaAdapter setCellVisible:isVisible];
+    [self.mediaAdapter setCellVisible:isVisible];
 
     
     
