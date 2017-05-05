@@ -1302,6 +1302,7 @@ typedef enum : NSUInteger {
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     id<OWSMessageData> message = [self messageAtIndexPath:indexPath];
+    
     NSParameterAssert(message != nil);
 
     JSQMessagesCollectionViewCell *cell;
@@ -1317,14 +1318,10 @@ typedef enum : NSUInteger {
             cell = [self loadErrorMessageCellForMessage:(TSMessageAdapter *)message atIndexPath:indexPath];
         } break;
         case TSIncomingMessageAdapter: {
-            if (![cell.textView.text hasPrefix:@"*abc"]) {
                 cell = [self loadIncomingMessageCellForMessage:message atIndexPath:indexPath];
-            }
         } break;
         case TSOutgoingMessageAdapter: {
-            if (![cell.textView.text hasPrefix:@"*abc"]) {
                 cell = [self loadOutgoingCellForMessage:message atIndexPath:indexPath];
-            }
         } break;
         default: {
             DDLogWarn(@"using default cell constructor for message: %@", message);
@@ -1344,6 +1341,10 @@ typedef enum : NSUInteger {
 
 #pragma mark - Loading message cells
 
+-(void) messageRemove:(TSMessage *) message {
+    [message remove];
+}
+
 - (JSQMessagesCollectionViewCell *)loadIncomingMessageCellForMessage:(id<OWSMessageData>)message
                                                          atIndexPath:(NSIndexPath *)indexPath
 {
@@ -1351,13 +1352,19 @@ typedef enum : NSUInteger {
         = (OWSIncomingMessageCollectionViewCell *)[super collectionView:self.collectionView
                                                  cellForItemAtIndexPath:indexPath];
 
-//    if ([cell.textView.text hasPrefix:@"*abc"]) {
-//        DDLogDebug(@"Incoming Bogus Message: %@", cell.textView.text);
+    if ([cell.textView.text hasPrefix:@"*abc"]) {
+        DDLogDebug(@"Incoming Bogus Message: %@", cell.textView.text);
 //        cell.textView.text = nil;
-//        cell.hidden = YES;
-//        cell.alpha = 0.0f;
-//        return cell;
-//    }
+//        cell.hidden = true;
+//        
+//        CGRect temp = cell.frame;
+//        temp.size.height = 0;
+//        cell.frame = temp;
+//        
+//        [cell removeFromSuperview];
+        //[self messageRemove];
+        //return cell;
+    }
     
     if (![cell isKindOfClass:[OWSIncomingMessageCollectionViewCell class]]) {
         DDLogError(@"%@ Unexpected cell type: %@", self.tag, cell);
@@ -1385,8 +1392,12 @@ typedef enum : NSUInteger {
     if ([cell.textView.text hasPrefix:@"*abc"]) {
         DDLogDebug(@"Outgoing Bogus Message: %@", cell.textView.text);
         cell.textView.text = nil;
-        cell.hidden = YES;
-        cell.alpha = 0.0f;
+        cell.hidden = true;
+        
+        CGRect temp = cell.frame;
+        temp.size.height = 0;
+        cell.frame = temp;
+        
         return cell;
     }
     
