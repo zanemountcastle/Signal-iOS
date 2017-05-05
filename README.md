@@ -6,6 +6,8 @@ The premise of this project is to flood an attacker with bogus, encrypted messag
 
 The user is unaware of the messages being sent back and forth between two application hosts, since the application automatically filters out messages that match the Flowmoji bogus message format.
 
+This is not the offical Signal iOS application! For the most up-to-date and secure source code, see [here](https://github.com/WhisperSystems/Signal-iOS).
+
 ## Cryptography Notice
 
 This distribution includes cryptographic software. The country in which you currently reside may have restrictions on the import, possession, use, and/or re-export to another country, of encryption software. 
